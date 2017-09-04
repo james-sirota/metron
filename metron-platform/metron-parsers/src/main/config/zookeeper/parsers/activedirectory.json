@@ -1,0 +1,8 @@
+{
+  "parserClassName": "org.apache.metron.parsers.activedirectory.ActiveDirectoryParsingBolt",
+  "sensorTopic": "ad",
+  "parserConfig": {
+    "streamFormat": "syslog"
+  }
+  
+}
