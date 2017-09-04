@@ -36,6 +36,8 @@ public class ActiveDirectoryParsingBolt extends BasicParser {
 
   protected static final Logger LOG = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
   public static final String AD_STREAM_FORMAT = "streamFormat";
+  public static final String NORMALIZE_FOR_METRON = "normalizeForMetron";
+  public static final String TRANSFORM_KEYS_FOR_METRON = "transformKeysForMetron";
   private transient GenericMetronADParser converter;
 
   
@@ -44,6 +46,8 @@ public class ActiveDirectoryParsingBolt extends BasicParser {
   public void configure(Map<String, Object> parserConfig) {
 	  
 	  String streamFormat = parserConfig.get(AD_STREAM_FORMAT).toString();
+	  String normalizeForMetron = parserConfig.get(NORMALIZE_FOR_METRON).toString();
+	  String transformKeysForMetron = parserConfig.get(TRANSFORM_KEYS_FOR_METRON).toString();
 	  
 	  if(streamFormat.equals("syslog") || streamFormat == null)
 		  	converter = new AdAsSyslogParser();
@@ -68,6 +72,11 @@ public class ActiveDirectoryParsingBolt extends BasicParser {
       JSONObject jsonVal = new JSONObject();
       
       jsonVal = converter.parse(msg);
+      
+      if (normalizeForMetron != null && normalizeForMetron.equals("yes")) 
+    	  jsonVal = ads.normalizeForMetron(obj);
+		if(transformKeysForMetron != null && transformKeysForMetron.equals("yes"))
+		  jsonVal = ads.transformKeysForMetron(obj);
       
       
       if(jsonVal != null) {

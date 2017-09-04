@@ -2,7 +2,9 @@
   "parserClassName": "org.apache.metron.parsers.activedirectory.ActiveDirectoryParsingBolt",
   "sensorTopic": "ad",
   "parserConfig": {
-    "streamFormat": "syslog"
+    "streamFormat": "syslog",
+    "normalizeForMetron" : "yes",
+    "transformKeysForMetron" : "yes"
   }
   
 }
