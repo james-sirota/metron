@@ -45,7 +45,7 @@ public class ActiveDirectoryParsingBolt extends BasicParser {
 	  
 	  String streamFormat = parserConfig.get(AD_STREAM_FORMAT).toString();
 	  
-	  if(streamFormat.equals("syslog"))
+	  if(streamFormat.equals("syslog") || streamFormat == null)
 		  	converter = new AdAsSyslogParser();
   		
   	  else
