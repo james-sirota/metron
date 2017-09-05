@@ -1,0 +1,18 @@
+{
+  "hdfs" : {
+    "index": "activedirectory",
+    "batchSize": 50,
+    "enabled" : true
+  },
+  "elasticsearch" : {
+    "index": "activedirectory",
+    "batchSize": 5,
+    "enabled" : true
+  },
+  "solr" : {
+    "index": "activedirectory",
+    "batchSize": 5,
+    "enabled" : true
+  }
+}
+
