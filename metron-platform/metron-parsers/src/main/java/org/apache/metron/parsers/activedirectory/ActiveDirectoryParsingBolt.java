@@ -40,12 +40,14 @@ public class ActiveDirectoryParsingBolt extends BasicParser {
   public static final String TRANSFORM_KEYS_FOR_METRON = "transformKeysForMetron";
   private transient GenericMetronADParser converter;
 
+  private String normalizeForMetron;
+  private String transformKeysForMetron;
   
   
   @Override
   public void configure(Map<String, Object> parserConfig) {
 	  
-	  LOG.info("Initialized Parsers with following parameters: ")
+	  LOG.info("Initialized Parsers with following parameters: ");
 	  
 	  for(Object confItem: parserConfig.keySet())
 	  {
@@ -54,12 +56,12 @@ public class ActiveDirectoryParsingBolt extends BasicParser {
 	  
 	  
 	  String streamFormat = parserConfig.get(AD_STREAM_FORMAT).toString();
-	  String normalizeForMetron = parserConfig.get(NORMALIZE_FOR_METRON).toString();
-	  String transformKeysForMetron = parserConfig.get(TRANSFORM_KEYS_FOR_METRON).toString();
+	  normalizeForMetron = parserConfig.get(NORMALIZE_FOR_METRON).toString();
+	  transformKeysForMetron = parserConfig.get(TRANSFORM_KEYS_FOR_METRON).toString();
 	  
 	  if(normalizeForMetron == null)
 		  normalizeForMetron = "yes";
-	  if(transformKeysForMetron) == null
+	  if(transformKeysForMetron == null)
 			  transformKeysForMetron = "yes";
 	  
 	  if(streamFormat.equals("syslog") || streamFormat == null)
@@ -87,9 +89,9 @@ public class ActiveDirectoryParsingBolt extends BasicParser {
       jsonVal = converter.parse(msg);
       
       if (normalizeForMetron != null && normalizeForMetron.equals("yes")) 
-    	  jsonVal = ads.normalizeForMetron(obj);
+    	  jsonVal = converter.normalizeForMetron(jsonVal);
 		if(transformKeysForMetron != null && transformKeysForMetron.equals("yes"))
-		  jsonVal = ads.transformKeysForMetron(obj);
+		  jsonVal = converter.transformKeysForMetron(jsonVal);
       
       
       if(jsonVal != null) {
