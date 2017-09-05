@@ -45,9 +45,22 @@ public class ActiveDirectoryParsingBolt extends BasicParser {
   @Override
   public void configure(Map<String, Object> parserConfig) {
 	  
+	  LOG.info("Initialized Parsers with following parameters: ")
+	  
+	  for(Object confItem: parserConfig.keySet())
+	  {
+		  LOG.info(confItem + " -> " + parserConfig.get(confItem));
+	  }
+	  
+	  
 	  String streamFormat = parserConfig.get(AD_STREAM_FORMAT).toString();
 	  String normalizeForMetron = parserConfig.get(NORMALIZE_FOR_METRON).toString();
 	  String transformKeysForMetron = parserConfig.get(TRANSFORM_KEYS_FOR_METRON).toString();
+	  
+	  if(normalizeForMetron == null)
+		  normalizeForMetron = "yes";
+	  if(transformKeysForMetron) == null
+			  transformKeysForMetron = "yes";
 	  
 	  if(streamFormat.equals("syslog") || streamFormat == null)
 		  	converter = new AdAsSyslogParser();
